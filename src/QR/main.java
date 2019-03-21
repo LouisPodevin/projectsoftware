@@ -33,7 +33,8 @@ public class main {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		Webcam webcam = Webcam.getDefault();
+		System.out.println(Webcam.getWebcams());
+		Webcam webcam =Webcam.getDefault();
 		
 //		webcam.addWebcamListener(new WebcamListener()
 //		{
