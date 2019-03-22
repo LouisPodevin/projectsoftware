@@ -103,28 +103,57 @@ public class Fenetre_webcam extends JFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         
-        IMAGE.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent event){	
+       
+          	
+            	 new webcamthread("t1",webcam,texte);
             	
-            	try {
-            		
-            		
-					ImageIO.write(webcam.getImage(),"PNG",new File("test.png"));
-					File file = new File("test.png");
-		            String decodedText = main.decodeQRCode(file);
-		            if(decodedText == null) {
-		                System.out.println("No QR Code found in the image");
-		                texte.setText("<html>No QR <br> Code found in the image</html>");
-		            }else {
-		                System.out.println("Decoded text = " + decodedText);
-		                texte.setText(decodedText);
-		            } 
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
+            
+          
+}
+}
+
+
+class  webcamthread extends Thread {
+	
+	public webcamthread(String name, Webcam webcam,JLabel texte) {
+		
+		super(name);
+		this.start();
+		try {
+    		
+    		while(true) {
+			ImageIO.write(webcam.getImage(),"PNG",new File("test.png"));
+			File file = new File("test.png");
+            String decodedText = main.decodeQRCode(file);
+            if(decodedText == null) {
+                
+                texte.setText("<html>No QR <br> Code found in the image</html>");
+                
+            }else {
+            	
+                System.out.println("Decoded text = " + decodedText);
+                texte.setText(decodedText);
+                try {
+					this.sleep(10000);
+				} catch (InterruptedException e) {
+					
 					e.printStackTrace();
 				}
-            }
-          });
-}
-}
+            } }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.stop();
+		
+		
+	}
+	}
+	
+	
+	
+	
+	
+
 
