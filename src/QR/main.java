@@ -6,8 +6,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.github.sarxos.webcam.Webcam;
-import com.github.sarxos.webcam.WebcamEvent;
-import com.github.sarxos.webcam.WebcamListener;
 import com.github.sarxos.webcam.WebcamResolution;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
@@ -33,8 +31,11 @@ public class main {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
+
 		System.out.println(Webcam.getWebcams());
-		Webcam webcam =Webcam.getDefault();
+		Webcam webcam =Webcam.getWebcams().get(0);
+
+		
 		
 //		webcam.addWebcamListener(new WebcamListener()
 //		{
