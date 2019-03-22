@@ -37,50 +37,73 @@ public class Fenetre_webcam extends JFrame {
         WebcamPanel webcamPanel = new WebcamPanel(webcam);
         webcamPanel.setSize(640,480);
         
-        JButton bouton = new JButton("Capture");
+
  
         JPanel WEBCAM = new JPanel();
         WEBCAM.setBackground(Color.white);
-        WEBCAM.setBounds(80,20,700,500);    
+        WEBCAM.setBounds(200,100,660,500);    
         WEBCAM.add(webcamPanel);
-        WEBCAM.add(bouton,BorderLayout.SOUTH);
+        Border lineborder = BorderFactory.createLineBorder(Color.GRAY, 6); 
+        WEBCAM.setBorder(lineborder);
         
-      
+        JLabel titreWebcam = new JLabel("SHOW A QR CODE");
+        titreWebcam.setBounds(200, 60, 280, 30);
+        Font font = new Font("Arial",Font.BOLD,30);
+        titreWebcam.setForeground(Color.gray);
+        titreWebcam.setFont(font);
+        
+        JLabel titreBouton = new JLabel("PUSH FOR TAKE A PICTURE");
+        titreBouton.setBounds(200, 610, 500, 30);
+        titreBouton.setForeground(Color.gray);
+        titreBouton.setFont(font);
+        
+        JLabel titreInformation = new JLabel("INFORMATIONS");
+        titreInformation.setBounds(1000, 60, 500, 30);
+        titreInformation.setForeground(Color.gray);
+        titreInformation.setFont(font);
         
         
         JPanel TEXTE = new JPanel();
-        TEXTE.setBackground(Color.white);
-        Border lineborder = BorderFactory.createLineBorder(Color.GRAY, 5); 
+        TEXTE.setBackground(Color.WHITE);
+        TEXTE.setBounds(1000, 100, 600, 850);
         TEXTE.setBorder(lineborder);
-        TEXTE.setBounds(1000, 30, 800, 280);
         
         
-        JPanel IMAGE = new JPanel();
-        IMAGE.setBounds(90, 600, 500, 294);
+        JButton IMAGE = new JButton();
+        IMAGE.setBounds(200, 650, 640, 294);
         IMAGE.setBackground(Color.white);
         BufferedImage image = ImageIO.read(new File("./java.jpg"));
         JLabel label = new JLabel(new ImageIcon(image));
         IMAGE.add(label);
+        IMAGE.setBorder(lineborder);
+        
+    
         
         
-        Font font = new Font("Arial",Font.BOLD,50);
+        Font font1 = new Font("Arial",Font.ITALIC,50);
         JLabel texte = new JLabel();
-        texte.setFont(font);
+        texte.setBounds(0,10, 100, 50);
+        texte.setFont(font1);
+        texte.setForeground(Color.BLACK);
         TEXTE.add(texte);
         
         
         JFrame frame = new JFrame();
         frame.getContentPane().setBackground(Color.white);
         frame.setSize(1000,600);
+        frame.setTitle("QUICK TIMETABLE");
         frame.add(WEBCAM); 
         frame.add(TEXTE);
         frame.add(IMAGE);
+        frame.add(titreWebcam);
+        frame.add(titreBouton);
+        frame.add(titreInformation);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null); 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         
-        bouton.addActionListener(new ActionListener(){
+        IMAGE.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){	
             	
             	try {
@@ -91,11 +114,11 @@ public class Fenetre_webcam extends JFrame {
 		            String decodedText = main.decodeQRCode(file);
 		            if(decodedText == null) {
 		                System.out.println("No QR Code found in the image");
-		                texte.setText("No QR Code found in the image");
-		            } else {
+		                texte.setText("<html>No QR <br> Code found in the image</html>");
+		            }else {
 		                System.out.println("Decoded text = " + decodedText);
 		                texte.setText(decodedText);
-		            }
+		            } 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
