@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -65,8 +66,13 @@ public class Fenetre_webcam extends JFrame {
         
         JPanel TEXTE = new JPanel();
         TEXTE.setBackground(Color.WHITE);
-        TEXTE.setBounds(1000, 100, 600, 850);
+        TEXTE.setBounds(1000, 100, 800, 300);
         TEXTE.setBorder(lineborder);
+        
+        JPanel VIDEO = new JPanel();
+        VIDEO.setBackground(Color.WHITE);
+        VIDEO.setBounds(1000, 500, 800, 300);
+        VIDEO.setBorder(lineborder);
         
         
         JButton IMAGE = new JButton();
@@ -76,6 +82,8 @@ public class Fenetre_webcam extends JFrame {
         JLabel label = new JLabel(new ImageIcon(image));
         IMAGE.add(label);
         IMAGE.setBorder(lineborder);
+        
+        
         
     
         
@@ -98,6 +106,7 @@ public class Fenetre_webcam extends JFrame {
         frame.add(titreWebcam);
         frame.add(titreBouton);
         frame.add(titreInformation);
+        frame.add(VIDEO);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null); 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,7 +127,12 @@ public class Fenetre_webcam extends JFrame {
 		            }else {
 		                System.out.println("Decoded text = " + decodedText);
 		                texte.setText(decodedText);
-		            } 
+		                String DerCaractere = decodedText.split("<br>")[decodedText.split("<br>").length-1];
+		                String A = (DerCaractere.substring(0,4));
+		                String B = "S001";
+		                System.out.println(A);
+		                System.out.println(B);
+		            }
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
