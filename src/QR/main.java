@@ -24,7 +24,7 @@ public class main {
             Result result = new MultiFormatReader().decode(bitmap);
             return result.getText();
         } catch (NotFoundException e) {
-            System.out.println("There is no QR code in the image");
+           
             return null;
         }
     }
@@ -63,7 +63,7 @@ public class main {
 //				System.out.println("Image Taken");
 //			}
 //		});
-			
+		
 		webcam.setViewSize(WebcamResolution.VGA.getSize());
 		webcam.open();	
 		webcam.close();

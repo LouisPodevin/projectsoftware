@@ -1,6 +1,7 @@
 package QR;
 
 import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -26,9 +27,20 @@ import javax.swing.border.Border;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
+import com.sun.jna.Native;
+import com.sun.jna.NativeLibrary;
+
+import uk.co.caprica.vlcj.binding.LibVlc;
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+
+
 
 public class Fenetre_webcam extends JFrame {
 	
+	
+	 public static String ID ;
 	
 	public Fenetre_webcam() throws IOException {
 		 
@@ -72,12 +84,29 @@ public class Fenetre_webcam extends JFrame {
         JPanel TEXTE = new JPanel();
         TEXTE.setBackground(Color.WHITE);
         TEXTE.setBounds(800, 100, 1000, 300);
+
         TEXTE.setBorder(lineborder);
         
         JPanel VIDEO = new JPanel();
-        VIDEO.setBackground(Color.WHITE);
+       
         VIDEO.setBounds(800, 500, 460, 460);
         VIDEO.setBorder(lineborder);
+        Canvas c = new Canvas();
+        VIDEO.add(c);
+        c.setBounds(800, 500, 460, 460);
+        c.setBackground(Color.WHITE);
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(),"C:/Program Files/VideoLAN/VLC");
+        Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
+        MediaPlayerFactory mpf = new MediaPlayerFactory();
+        EmbeddedMediaPlayer emp =mpf.newEmbeddedMediaPlayer();
+        emp.setVideoSurface(mpf.newVideoSurface(c));
+        
+       
+        
+        emp.setEnableKeyInputHandling(false);
+        emp.setEnableMouseInputHandling(false);
+        
+        
         
         JPanel SOUND = new JPanel();
         SOUND.setBackground(Color.WHITE);
@@ -122,52 +151,28 @@ public class Fenetre_webcam extends JFrame {
         frame.setLocationRelativeTo(null);
         frame.setLayout(null); 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       
         frame.setVisible(true);
+        String file2 ="small.mp4";
+        System.out.println("cul");
+		Thread	 t =new webcamphoto("t1",webcam,texte);
+		t.run();
         
-        new webcamthread("t1",webcam,texte);
-            	
+        System.out.println("cul");
+        emp.setRepeat(true);
+        
+        emp.prepareMedia(file2);
+		emp.play();
+       
+        
+
+         }   	
 	}
             	 
             	 
             	 
-class  webcamthread extends Thread {
-	
-	public webcamthread(String name, Webcam webcam,JLabel texte) {
-		
-		super(name);
-		this.start();
-		try {
-    		
-    		while(true) {
-			ImageIO.write(webcam.getImage(),"PNG",new File("test.png"));
-			File file = new File("test.png");
-            String decodedText = main.decodeQRCode(file);
-            if(decodedText == null) {
-                
-                texte.setText("<html>No QR <br> Code found in the image</html>");
-                
-            }else {
-            	
-                System.out.println("Decoded text = " + decodedText);
-                texte.setText(decodedText);
-                try {
-					this.sleep(10000);
-				} catch (InterruptedException e) {
-					
-					e.printStackTrace();
-				}
-            } }
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		this.stop();
-		
-		
-	}
-  }
-}
+
+
 
 	
 	
